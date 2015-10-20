@@ -328,7 +328,7 @@ public class SerializationHeader
                     // deserialization. The column will be ignore later on anyway.
                     column = metadata.getDroppedColumnDefinition(name);
                     if (column == null)
-                        throw new RuntimeException("Unknown column " + UTF8Type.instance.getString(name) + " during deserialization");
+                        throw new RuntimeException("Unknown column " + UTF8Type.instance.getString(name) + " during deserialization (metadata columns are: " + metadata.partitionColumns() + ")");
                 }
                 builder.add(column);
             }

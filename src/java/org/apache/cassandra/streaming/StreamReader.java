@@ -76,6 +76,8 @@ public class StreamReader
         this.format = header.format;
         this.sstableLevel = header.sstableLevel;
         this.header = header.header;
+
+        logger.info("Reading stream using header "+ this.header);
     }
 
     /**
