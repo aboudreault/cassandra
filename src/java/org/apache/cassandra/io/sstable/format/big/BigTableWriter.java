@@ -196,7 +196,7 @@ public class BigTableWriter extends SSTableWriter
         public Row applyToRow(Row row)
         {
             if (row.isEmpty())
-                logger.warn("#### empty row from {}.{}: {}", metadata.ksName, metadata.cfName, row.toString(metadata));
+                logger.error("#### empty row from {}.{}: {}", metadata.ksName, metadata.cfName, row.toString(metadata));
             collector.updateClusteringValues(row.clustering());
             cellCount += Rows.collectStats(row, collector);
             return row;
