@@ -144,7 +144,7 @@ public class BigTableWriter extends SSTableWriter
 
         long startPosition = beforeAppend(key);
 
-        try (UnfilteredRowIterator collecting = Transformation.apply(iterator, new StatsCollector(metadataCollector)))
+        try (UnfilteredRowIterator collecting = Transformation.apply(iterator, new StatsCollector(metadataCollector, metadata)))
         {
             ColumnIndex index = ColumnIndex.writeAndBuildIndex(collecting, dataFile, header, descriptor.version);
 
@@ -174,11 +174,13 @@ public class BigTableWriter extends SSTableWriter
 
     private static class StatsCollector extends Transformation
     {
+        private final CFMetaData metadata;
         private final MetadataCollector collector;
         private int cellCount;
 
-        StatsCollector(MetadataCollector collector)
+        StatsCollector(MetadataCollector collector, CFMetaData metadata)
         {
+            this.metadata = metadata;
             this.collector = collector;
         }
 
@@ -193,6 +195,8 @@ public class BigTableWriter extends SSTableWriter
         @Override
         public Row applyToRow(Row row)
         {
+            if (row.isEmpty())
+                logger.warn("#### empty row from {}.{}: {}", metadata.ksName, metadata.cfName, row.toString(metadata));
             collector.updateClusteringValues(row.clustering());
             cellCount += Rows.collectStats(row, collector);
             return row;
