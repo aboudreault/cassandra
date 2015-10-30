@@ -1309,6 +1309,11 @@ public class StorageService extends NotificationBroadcasterSupport implements IE
         return isBootstrapMode;
     }
 
+    public boolean isSurveyMode()
+    {
+        return isSurveyMode;
+    }
+
     public TokenMetadata getTokenMetadata()
     {
         return tokenMetadata;
