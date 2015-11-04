@@ -38,6 +38,7 @@ import org.apache.cassandra.concurrent.StageManager;
 import org.apache.cassandra.config.CFMetaData;
 import org.apache.cassandra.config.ColumnDefinition;
 import org.apache.cassandra.config.Schema;
+import org.apache.cassandra.db.ColumnFamilyStore;
 import org.apache.cassandra.db.Keyspace;
 import org.apache.cassandra.db.SystemKeyspace;
 import org.apache.cassandra.serializers.SimpleDateSerializer;
@@ -791,6 +792,8 @@ public class ViewTest extends CQLTester
     @Test
     public void testUpdate() throws Throwable
     {
+        // regression test for CASSANDRA-10614
+
         createTable("CREATE TABLE %s (" +
                     "k int, " +
                     "intval int, " +
